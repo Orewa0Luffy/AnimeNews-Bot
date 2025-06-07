@@ -1,7 +1,7 @@
 # config.py
 
-API_ID = "" #API ID get it from telegram.org
-API_HASH = "" #API HASH get it from telegram.org
+API_ID = "28713982" #API ID get it from telegram.org
+API_HASH = "237e15f7c006b10b4fa7c46fee7a5377" #API HASH get it from telegram.org
 BOT_TOKEN = "" #Bot Token get it from @BotFather
 URL_A = "https://www.animenewsnetwork.com/all/rss.xml" #News RSS Feed Url 2
 #URL_B = "" #News RSS Feed Url 2
