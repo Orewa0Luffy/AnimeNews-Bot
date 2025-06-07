@@ -8,6 +8,7 @@ async def fetch_and_send_news(app: Client, db, global_settings_collection, urls)
         return
 
     news_channel = "@" + config["news_channel"]
+    premium_emoji = "🛡️"
 
     for url in urls:
         feed = await asyncio.to_thread(feedparser.parse, url)
@@ -18,7 +19,19 @@ async def fetch_and_send_news(app: Client, db, global_settings_collection, urls)
 
             if not db.sent_news.find_one({"entry_id": entry_id}):
                 thumbnail_url = entry.media_thumbnail[0]['url'] if 'media_thumbnail' in entry else None
-                msg = f"<b>**{entry.title}**</b>\n\n{entry.summary if 'summary' in entry else ''}\n\n<a href='{entry.link}'>Read more</a>"
+
+                # Prepare the message lines with quote mark and bold
+                quoted_title = f"❝ {entry.title} ❞"
+                lines = [
+                    f"{premium_emoji} {quoted_title}",
+                    entry.summary if 'summary' in entry else '',
+                    f"<a href='{entry.link}'>Read more</a>",
+                    f"{premium_emoji} Follow @Anime_News_Union For More Anime News"
+                ]
+
+                # Filter empty lines and wrap each in bold with quote prefix
+                msg_lines = [f"<b>❝ {line}</b>" for line in lines if line.strip() != '']
+                msg = "\n\n".join(msg_lines)
 
                 try:
                     await asyncio.sleep(15)  # Delay between messages
